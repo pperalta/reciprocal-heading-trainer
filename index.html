@@ -1,40 +1,64 @@
 <!doctype html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Reciprocal Heading Trainer</title>
+    <meta charset="UTF-8">
+    <title>Reciprocal Heading Trainer</title>
+    <style>
+        .label {
+            font-weight: bold;
+        }
+    </style>
 </head>
+
 <body>
-<h1>Reciprocal Heading Trainer</h1>
-<input id="heading" readonly/>
-<br>
-<input id="response" readonly/>
-<br>
-<input id="answer" />
-<button id="btnSubmit" onClick="onSubmit()">Submit</button>
-<button id="btnReset" onClick="onReset()">Reset</button>
+    <h1>Reciprocal Heading Trainer</h1>
+    <div>
+        <span class="label">Heading: </span><span id="heading"></span>
+    </div>
+    <div>
+        <span class="label">Reciprocal: </span><input id="answer" />
+    </div>
+    <div>
+        <span class="label">Answer is: </span><span id="response"></span>
+    </div>
 
-<script>
-    document.getElementById("heading").value = randomHeading();
+    <button id="btnSubmit" onClick="onSubmit()">Submit</button>
+    <button id="btnReset" onClick="onReset()">Reset</button>
 
-    function randomHeading() {
-        return Math.floor(Math.random() * 359);
-    }
+    <script>
+        "use strict";
+        document.getElementById("heading").innerHTML = randomHeading();
+        document.getElementById("answer").addEventListener("keyup", function (event) {
+            // 13 is the "enter" key
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                onSubmit();
+            }
+        });
 
-    function reciprocal(heading) {
-        const h = parseInt(heading)
-        return h > 180 ? h - 180 : h + 180;
-    }
+        function randomHeading() {
+            return Math.floor(Math.random() * 359);
+        }
 
-    function onSubmit() {        
-        const heading = document.getElementById("heading").value;
-        const recip = reciprocal(heading);
-        const answer = parseInt(document.getElementById("answer").value);
-        document.getElementById("response").value = recip === answer ? "correct" : "incorrect: " + recip;
-    }
-        
-    function onReset() {
-        location.reload();
-    }
-</script>
+        function reciprocal(heading) {
+            const h = parseInt(heading)
+            return h > 180 ? h - 180 : h + 180;
+        }
+
+        function onSubmit() {
+            const heading = document.getElementById("heading").innerHTML;
+            const recip = reciprocal(heading);
+            const answer = parseInt(document.getElementById("answer").value);
+            const label = recip === answer ? "correct" : "incorrect: " + recip;
+            document.getElementById("response").innerHTML = label;
+            if (label === "correct") {
+                setTimeout(onReset, 3000);
+            }
+        }
+
+        function onReset() {
+            location.reload();
+        }
+    </script>
 </body>
