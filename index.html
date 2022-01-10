@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Reciprocal Heading Trainer</title>
+</head>
+<body>
+<h1>Reciprocal Heading Trainer</h1>
+<input id="heading" readonly/>
+<br>
+<input id="response" readonly/>
+<br>
+<input id="answer" />
+<button id="btnSubmit" onClick="onSubmit()">Submit</button>
+<button id="btnReset" onClick="onReset()">Reset</button>
+
+<script>
+    document.getElementById("heading").value = randomHeading();
+
+    function randomHeading() {
+        return Math.floor(Math.random() * 359);
+    }
+
+    function reciprocal(heading) {
+        const h = parseInt(heading)
+        return h > 180 ? h - 180 : h + 180;
+    }
+
+    function onSubmit() {        
+        const heading = document.getElementById("heading").value;
+        const recip = reciprocal(heading);
+        const answer = parseInt(document.getElementById("answer").value);
+        document.getElementById("response").value = recip === answer ? "correct" : "incorrect: " + recip;
+    }
+        
+    function onReset() {
+        location.reload();
+    }
+</script>
+</body>
